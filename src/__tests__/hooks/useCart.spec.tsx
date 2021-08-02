@@ -10,7 +10,7 @@ const apiMock = new AxiosMock(api);
 jest.mock('react-toastify');
 
 const mockedToastError = toast.error as jest.Mock;
-const mockedSetItemLocalStorage = jest.spyOn(Storage.prototype, 'setItem');
+const mockedSetItemge = jest.spyOn(Storage.prototype, 'setItem');
 const initialStoragedData = [
   {
     id: 1,
@@ -39,7 +39,7 @@ describe('useCart Hook', () => {
       .mockReturnValueOnce(JSON.stringify(initialStoragedData));
   });
 
-  it('should be able to initialize cart with localStorage value', () => {
+  it('should be able to initialize cart with ge value', () => {
     const { result } = renderHook(useCart, {
       wrapper: CartProvider,
     });
@@ -119,7 +119,7 @@ describe('useCart Hook', () => {
         },
       ])
     );
-    expect(mockedSetItemLocalStorage).toHaveBeenCalledWith(
+    expect(mockedSetItemge).toHaveBeenCalledWith(
       '@RocketShoes:cart',
       JSON.stringify(result.current.cart)
     );
@@ -151,7 +151,7 @@ describe('useCart Hook', () => {
     expect(result.current.cart).toEqual(
       expect.arrayContaining(initialStoragedData)
     );
-    expect(mockedSetItemLocalStorage).not.toHaveBeenCalled();
+    expect(mockedSetItemge).not.toHaveBeenCalled();
   });
 
   it('should be able to increase a product amount when adding a product that already exists on cart', async () => {
@@ -199,7 +199,7 @@ describe('useCart Hook', () => {
         },
       ])
     );
-    expect(mockedSetItemLocalStorage).toHaveBeenCalledWith(
+    expect(mockedSetItemge).toHaveBeenCalledWith(
       '@RocketShoes:cart',
       JSON.stringify(result.current.cart)
     );
@@ -241,7 +241,7 @@ describe('useCart Hook', () => {
     expect(result.current.cart).toEqual(
       expect.arrayContaining(initialStoragedData)
     );
-    expect(mockedSetItemLocalStorage).not.toHaveBeenCalled();
+    expect(mockedSetItemge).not.toHaveBeenCalled();
   });
 
   it('should be able to remove a product', () => {
@@ -267,7 +267,7 @@ describe('useCart Hook', () => {
         },
       ])
     );
-    expect(mockedSetItemLocalStorage).toHaveBeenCalledWith(
+    expect(mockedSetItemge).toHaveBeenCalledWith(
       '@RocketShoes:cart',
       JSON.stringify(result.current.cart)
     );
@@ -288,7 +288,7 @@ describe('useCart Hook', () => {
     expect(result.current.cart).toEqual(
       expect.arrayContaining(initialStoragedData)
     );
-    expect(mockedSetItemLocalStorage).not.toHaveBeenCalled();
+    expect(mockedSetItemge).not.toHaveBeenCalled();
   });
 
   it('should be able to update a product amount', async () => {
@@ -329,7 +329,7 @@ describe('useCart Hook', () => {
         },
       ])
     );
-    expect(mockedSetItemLocalStorage).toHaveBeenCalledWith(
+    expect(mockedSetItemge).toHaveBeenCalledWith(
       '@RocketShoes:cart',
       JSON.stringify(result.current.cart)
     );
@@ -360,7 +360,7 @@ describe('useCart Hook', () => {
     expect(result.current.cart).toEqual(
       expect.arrayContaining(initialStoragedData)
     );
-    expect(mockedSetItemLocalStorage).not.toHaveBeenCalled();
+    expect(mockedSetItemge).not.toHaveBeenCalled();
   });
 
   it('should not be able to update a product amount when running out of stock', async () => {
@@ -391,7 +391,7 @@ describe('useCart Hook', () => {
     expect(result.current.cart).toEqual(
       expect.arrayContaining(initialStoragedData)
     );
-    expect(mockedSetItemLocalStorage).not.toHaveBeenCalled();
+    expect(mockedSetItemge).not.toHaveBeenCalled();
   });
 
   it('should not be able to update a product amount to a value smaller than 1', async () => {
@@ -420,12 +420,12 @@ describe('useCart Hook', () => {
       expect(result.current.cart).toEqual(
         expect.arrayContaining(initialStoragedData)
       );
-      expect(mockedSetItemLocalStorage).not.toHaveBeenCalled();
+      expect(mockedSetItemge).not.toHaveBeenCalled();
     } catch {
       expect(result.current.cart).toEqual(
         expect.arrayContaining(initialStoragedData)
       );
-      expect(mockedSetItemLocalStorage).not.toHaveBeenCalled();
+      expect(mockedSetItemge).not.toHaveBeenCalled();
     }
   });
 });
