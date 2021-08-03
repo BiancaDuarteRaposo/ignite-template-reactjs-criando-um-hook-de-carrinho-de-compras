@@ -17,7 +17,7 @@ interface ProductFormatted extends Product {
   priceFormatted: string;
 }
 
-interface CartItemsAmount {
+interface CartItemsAmount{
   [key: number]: number;
 }
 
@@ -25,18 +25,21 @@ const Home = (): JSX.Element => {
   const [products, setProducts] = useState<ProductFormatted[]>([]);
   const { addProduct, cart } = useCart();
 
-  //const cartItemsAmount = cart.reduce((sumAmount, product) => {
-    //Deve possuir as informações da quantidade de cada produto no carrinho. Sugerimos criar um objeto utilizando reduce
-    
-  //}, {} as CartItemsAmount)
+  const cartItemsAmount = 
+   // Deve possuir as informações da quantidade de cada produto no carrinho. Sugerimos criar um objeto utilizando reduce
+   cart.reduce((sumAmount, product) => {
+     const newSumAmount = {...sumAmount};
+     newSumAmount[product.id] = product.amount;
+     return newSumAmount;
+  }, {} as CartItemsAmount)
 
   useEffect(() => {
     async function loadProducts() {
     const response = await api.get('./products');
     const productsFormatted = response.data.map(function (product: Product){
-      return {...product,price: formatPrice(product.price)}
-    })
-    setProducts(response.data);
+      return {...product, price: formatPrice(product.price)}
+    });
+    setProducts(productsFormatted);
     }
 
     loadProducts();
@@ -60,9 +63,8 @@ const Home = (): JSX.Element => {
         >
           <div data-testid="cart-product-quantity">
             <MdAddShoppingCart size={16} color="#FFF" />
-            {/* {cartItemsAmount[product.id] |! 0} */} 1000
-          </div>
-
+            {cartItemsAmount[product.id] || 0 }
+            </div>
           <span>ADICIONAR AO CARRINHO</span>
         </button>
       </li>

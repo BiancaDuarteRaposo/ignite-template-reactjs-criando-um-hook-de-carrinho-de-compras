@@ -40,7 +40,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
     const addProduct = async (productId: number) => {
     try {
-      if(cart.some(product => product.id === productId)){ //produto já existe no carrinh
+      if(cart.some(product => product.id === productId)){ //produto já existe no carrinho
         const product = cart.filter(p => p.id === productId)[0];
         const newAmount = product.amount+1;
         const response = await api.get(`./stock/${productId}`); //Product
