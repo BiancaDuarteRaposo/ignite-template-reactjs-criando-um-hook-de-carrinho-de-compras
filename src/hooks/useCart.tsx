@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
-import { Product, Stock } from '../types';
+import { Product } from '../types';
 
 interface CartProviderProps {
   children: ReactNode;
@@ -34,8 +34,8 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     
   });
 
-  useEffect(() => {
-    console.log(cart);
+   useEffect(() => {
+    localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart));
   }, [cart]);
 
     const addProduct = async (productId: number) => {
@@ -43,9 +43,9 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       if(cart.some(product => product.id === productId)){ //produto já existe no carrinho
         const product = cart.filter(p => p.id === productId)[0];
         const newAmount = product.amount+1;
-        const response = await api.get(`./stock/${productId}`); //Product
+        const stock = await api.get(`./stock/${productId}`); //Product
         
-        if(newAmount>response.data.amount) {
+        if(newAmount>stock.data.amount) {
           toast.error('Quantidade solicitada fora de estoque');
         } else{
           product.amount = newAmount;
@@ -63,7 +63,6 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
           response.data,
         ]);
       }
-      localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart));
       
     } catch {
       toast.error('Erro na adição do produto');
@@ -76,7 +75,6 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     } catch {
       toast.error('Erro na remoção do produto');
     }
-    localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart));
   };
 
   const updateProductAmount = async ({
@@ -108,7 +106,6 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
      //Capturar utilizando trycatch os erros que ocorrerem ao longo do método
       toast.error('Erro na alteração de quantidade do produto');
     }
-    localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart));
   };
 
   return (
