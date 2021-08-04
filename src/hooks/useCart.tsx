@@ -86,10 +86,10 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     try {
       
       // 1 - Consultar na API o estoque através do id do produto
-      const response = await api.get(`./stock/${productId}`); // TODO Verificar se existe no estoque a quantidade desejada do produto.
+      const stock = await api.get(`./stock/${productId}`); // TODO Verificar se existe no estoque a quantidade desejada do produto.
       
       
-      if(amount>response.data.amount) {  // 2 - VERIFICAR se o amount recebido > ao amount do estoque
+      if(amount>stock.data.amount) {  // 2 - VERIFICAR se o amount recebido > ao amount do estoque
         toast.error('Quantidade solicitada fora de estoque'); // 2.1 Se for maior exibir erro com a mensagem para o cliente
         
       } else{ // 2.2 Se for menor ou igual, atualizar o amount do produto usando o setCart (parecido com o que vc fez no add product) 
@@ -101,7 +101,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
           product,
         ]);
       }
-      console.log(response.data.amount);
+      console.log(stock.data.amount);
       
     } catch {
       
